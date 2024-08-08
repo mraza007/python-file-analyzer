@@ -91,6 +91,7 @@ def analyze_python_file(file_path):
 
     return {
         "file_path": file_path,
+        "filesize": len(code),
         "num_lines": len(code.splitlines()),
         "functions": tracker.functions,
         "classes": tracker.classes,
@@ -102,6 +103,17 @@ def analyze_python_file(file_path):
 
 def print_file_analysis_terminal(analysis):
     print(f"Analysis of {analysis['file_path']}:")
+    def fsize_full(fsize): # this makes rounded filesize
+        if fsize < 1000:
+            return f"{fsize} B"
+        elif 1000 < fsize < 1000000:
+            kib = round(fsize/1024, 1)
+            return f"{kib} KiB"
+        else:
+            mib = round(fsize/1048576, 1)
+            return f"{mib} MiB"
+    fsize = fsize_full(analysis['filesize'])
+    print(f"Filesize: {fsize}")
     print(f"Number of lines: {analysis['num_lines']}")
 
     print("\nFunctions:")
